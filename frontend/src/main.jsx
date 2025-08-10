@@ -7,7 +7,7 @@ import './index.css';
 import axios from 'axios';
 
 // Add this line after the imports
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://inkwell-api-m236.onrender.com';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
