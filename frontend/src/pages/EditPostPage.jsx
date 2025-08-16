@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ReactQuill from 'react-quill'; // Import React Quill
+import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import '../App.css';
 
 const EditPostPage = () => {
@@ -10,9 +12,8 @@ const EditPostPage = () => {
     const [error, setError] = useState('');
     const { token } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { id } = useParams(); // Get the post ID from the URL
+    const { id } = useParams();
 
-    // Effect to fetch the post data when the component loads
     useEffect(() => {
         const fetchPost = async () => {
             try {
@@ -20,7 +21,7 @@ const EditPostPage = () => {
                 setTitle(response.data.title);
                 setContent(response.data.content);
             } catch (err) {
-                setError('Could not load the post for editing.' , err.response);
+                setError('Could not load the post for editing.',err.response);
             }
         };
         fetchPost();
@@ -29,16 +30,11 @@ const EditPostPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const config = {
-                headers: {
-                    'x-auth-token': token,
-                },
-            };
-            // Send a PUT request to update the post
+            const config = { headers: { 'x-auth-token': token } };
             await axios.put(`/api/posts/${id}`, { title, content }, config);
-            navigate(`/posts/${id}`); // Navigate back to the post detail page
+            navigate(`/posts/${id}`);
         } catch (err) {
-            setError('Failed to update post. You might not be the author.' , err.response);
+            setError('Failed to update post.',err.response);
         }
     };
 
@@ -52,14 +48,13 @@ const EditPostPage = () => {
                     <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="content">Content</label>
-                    <textarea
-                        id="content"
-                        rows="10"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        required
-                    ></textarea>
+                    <label>Content</label>
+                    <ReactQuill 
+                        theme="snow" 
+                        value={content} 
+                        onChange={setContent}
+                        className="quill-editor"
+                    />
                 </div>
                 <button type="submit" className="form-button">Update Post</button>
             </form>
