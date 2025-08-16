@@ -10,22 +10,22 @@ const LikeButton = ({ postId }) => {
     const { token } = useContext(AuthContext);
     const currentUserId = token ? jwtDecode(token).user.id : null;
 
-    const fetchLikes = async () => {
-        try {
-            const res = await axios.get(`/api/posts/${postId}/likes`);
-            setLikes(res.data.length);
-            // Check if the current user's ID is in the list of likes
-            setIsLiked(res.data.some(like => like.user === currentUserId));
-        } catch (err) {
-            console.error("Failed to fetch likes");
-        }
-    };
-
     useEffect(() => {
+        // Move the function definition inside the effect
+        const fetchLikes = async () => {
+            try {
+                const res = await axios.get(`/api/posts/${postId}/likes`);
+                setLikes(res.data.length);
+                setIsLiked(res.data.some(like => like.user === currentUserId));
+            } catch (err) {
+                console.error("Failed to fetch likes",err.response);
+            }
+        };
+
         if (postId) {
             fetchLikes();
         }
-    }, [postId, currentUserId]);
+    }, [postId, currentUserId]); // The dependency array is now correct
 
     const handleLike = async () => {
         if (!token) {
@@ -35,9 +35,15 @@ const LikeButton = ({ postId }) => {
         try {
             const config = { headers: { 'x-auth-token': token } };
             await axios.post(`/api/posts/${postId}/like`, {}, config);
-            fetchLikes(); // Refresh likes after action
+            
+            // We need to refetch likes after a user clicks the button.
+            // A simple way is to just reload the data.
+            const res = await axios.get(`/api/posts/${postId}/likes`);
+            setLikes(res.data.length);
+            setIsLiked(res.data.some(like => like.user === currentUserId));
+
         } catch (err) {
-            console.error("Failed to update like status");
+            console.error("Failed to update like status",err.response);
         }
     };
 

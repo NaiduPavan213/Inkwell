@@ -1,12 +1,55 @@
 import React, { useState, useEffect, useContext } from 'react';
-// ... (other imports remain the same)
-import Comments from '../components/Comments'; // Import Comments component
-import LikeButton from '../components/LikeButton'; // Import LikeButton component
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
+import { jwtDecode } from 'jwt-decode';
+import DOMPurify from 'dompurify';
+import Comments from '../components/Comments';
+import LikeButton from '../components/LikeButton';
+import '../App.css';
 
 const PostDetailPage = () => {
-    // ... (all existing state and logic remains the same)
+    const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { token } = useContext(AuthContext);
 
-    if (loading) return <p>Loading...</p>;
+    const currentUserId = token ? jwtDecode(token).user.id : null;
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get(`/api/posts/${id}`);
+                setPost(response.data);
+            } catch (err) {
+                setError('Post not found or failed to load.',err.response);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPost();
+    }, [id]);
+
+    const createMarkup = (html) => {
+        return { __html: DOMPurify.sanitize(html) };
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this post?')) {
+            try {
+                const config = { headers: { 'x-auth-token': token } };
+                await axios.delete(`/api/posts/${id}`, config);
+                navigate('/');
+            } catch (err) {
+                alert('Failed to delete post. You might not be the author.',err.response);
+            }
+        }
+    };
+
+    if (loading) return <p>Loading post...</p>;
     if (error) return <p className="error-msg">{error}</p>;
     if (!post) return <p>Post not found.</p>;
 
@@ -31,7 +74,6 @@ const PostDetailPage = () => {
 
             <hr className="divider" />
 
-            {/* Add the new components here */}
             <LikeButton postId={id} />
             <Comments postId={id} />
         </div>

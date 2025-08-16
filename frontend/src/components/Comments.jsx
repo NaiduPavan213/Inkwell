@@ -8,20 +8,21 @@ const Comments = ({ postId }) => {
     const [newComment, setNewComment] = useState('');
     const { token } = useContext(AuthContext);
 
-    const fetchComments = async () => {
-        try {
-            const res = await axios.get(`/api/posts/${postId}/comments`);
-            setComments(res.data);
-        } catch (err) {
-            console.error("Failed to fetch comments");
-        }
-    };
-
     useEffect(() => {
+        // Move the function definition inside the effect
+        const fetchComments = async () => {
+            try {
+                const res = await axios.get(`/api/posts/${postId}/comments`);
+                setComments(res.data);
+            } catch (err) {
+                console.error("Failed to fetch comments",err.response);
+            }
+        };
+
         if (postId) {
             fetchComments();
         }
-    }, [postId]);
+    }, [postId]); // The dependency array is now correct
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
@@ -31,9 +32,13 @@ const Comments = ({ postId }) => {
             const config = { headers: { 'x-auth-token': token } };
             await axios.post(`/api/posts/${postId}/comments`, { text: newComment }, config);
             setNewComment('');
-            fetchComments(); // Refresh comments after posting
+            
+            // Refetch comments after posting a new one
+            const res = await axios.get(`/api/posts/${postId}/comments`);
+            setComments(res.data);
+
         } catch (err) {
-            alert('Failed to post comment. Please log in.');
+            alert('Failed to post comment. Please log in.',err.response);
         }
     };
 
