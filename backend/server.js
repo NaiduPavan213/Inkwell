@@ -18,8 +18,9 @@ app.get('/',(req,res) => {
 });
 
 // Importing the auth routes
-app.use('/api/auth' , require('./routes/auth'));
-app.use('/api/posts' , require('./routes/posts'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/posts', require('./routes/posts'));
+app.use('/api', require('./routes/social'));
 
 
 
