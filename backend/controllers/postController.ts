@@ -9,7 +9,11 @@ export class PostController {
             return res.status(400).json({ errors: errors.array() });
         }
         try {
-            const post = await PostService.createPost(req.body, req.user!.id);
+            const postData = {
+                ...req.body,
+                coverImage: req.file ? req.file.path : ''
+            };
+            const post = await PostService.createPost(postData, req.user!.id);
             res.status(201).json(post);
         } catch (err) {
             next(err);

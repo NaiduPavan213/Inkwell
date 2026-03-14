@@ -5,11 +5,12 @@ export class PostService {
      * Create a new post
      */
     static async createPost(postData: any, userId: string) {
-        const { title, content } = postData;
+        const { title, content, coverImage } = postData;
         const newPost = new Post({
             title,
             content,
-            author: userId
+            author: userId,
+            coverImage: coverImage || ''
         });
         return await newPost.save();
     }

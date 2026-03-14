@@ -2,6 +2,7 @@ import express from 'express';
 import { check } from 'express-validator';
 import authMiddleware from '../middleware/auth';
 import { PostController } from '../controllers/postController';
+import upload from '../utils/cloudinaryConfig';
 
 const router = express.Router();
 
@@ -10,6 +11,7 @@ router.post(
     '/',
     [
         authMiddleware,
+        upload.single('image'),
         check('title', 'Title is required').not().isEmpty(),
         check('content', 'Content is required').not().isEmpty()
     ],

@@ -4,6 +4,7 @@ export interface IPost extends Document {
     title: string;
     content: string;
     author: mongoose.Types.ObjectId;
+    coverImage: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -22,6 +23,10 @@ const PostSchema: Schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+    },
+    coverImage: {
+        type: String,
+        default: '',
     }
 }, {
     timestamps: true
