@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 
 const app = express();
 const morgan = require('morgan');
@@ -28,6 +29,7 @@ const authLimiter = rateLimit({
 });
 
 app.use(helmet());
+app.use(compression());
 app.use(generalLimiter); // Apply to all requests
 app.use('/api/auth', authLimiter); // Stricter limit for auth routes
 
