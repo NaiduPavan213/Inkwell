@@ -10,7 +10,7 @@ const User = require('../models/User');
 // POST a new comment
 router.post('/posts/:postId/comments', authMiddleware, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.id).lean();
         const newComment = new Comment({
             text: req.body.text,
             author: req.user.id,
@@ -27,7 +27,7 @@ router.post('/posts/:postId/comments', authMiddleware, async (req, res) => {
 // GET all comments for a post
 router.get('/posts/:postId/comments', async (req, res) => {
     try {
-        const comments = await Comment.find({ post: req.params.postId }).sort({ createdAt: 'desc' });
+        const comments = await Comment.find({ post: req.params.postId }).sort({ createdAt: 'desc' }).lean();
         res.json(comments);
     } catch (err) {
         res.status(500).send('Server Error');
@@ -62,7 +62,7 @@ router.post('/posts/:postId/like', authMiddleware, async (req, res) => {
 // GET all likes for a post (to get the count and check if user has liked)
 router.get('/posts/:postId/likes', async (req, res) => {
     try {
-        const likes = await Like.find({ post: req.params.postId });
+        const likes = await Like.find({ post: req.params.postId }).lean();
         res.json(likes);
     } catch (err) {
         res.status(500).send('Server Error');

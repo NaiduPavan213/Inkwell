@@ -45,7 +45,7 @@ router.post(
 router.get('/', async (req, res, next) => {
     try {
         // Find all posts and sort them by date in descending order (newest first)
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const posts = await Post.find().sort({ createdAt: -1 }).lean();
         res.json(posts);
     } catch (err) {
         console.error(err.message);
@@ -59,7 +59,7 @@ router.get('/', async (req, res, next) => {
 // @access  Public
 router.get('/:id', async (req, res, next) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id).lean();
         if (!post) {
             return res.status(404).json({ msg: 'Post not found' });
         }
@@ -90,7 +90,7 @@ router.put(
         }
 
         try {
-            let post = await Post.findById(req.params.id);
+            let post = await Post.findById(req.params.id).lean();
             if (!post) {
                 return res.status(404).json({ msg: 'post not found' });
             }
