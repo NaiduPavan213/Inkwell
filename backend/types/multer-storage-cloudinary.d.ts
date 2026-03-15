@@ -2,21 +2,14 @@ declare module 'multer-storage-cloudinary' {
   import { StorageEngine } from 'multer';
   import { v2 as cloudinary } from 'cloudinary';
 
-  interface Options {
+  export interface Options {
     cloudinary: typeof cloudinary;
-    params?: {
-      folder?: string;
-      allowed_formats?: string[];
-      transformation?: Array<{ [key: string]: any }>;
-      [key: string]: any;
-    };
+    params?: any;
   }
 
-  class CloudinaryStorage implements StorageEngine {
+  export class CloudinaryStorage implements StorageEngine {
     constructor(options: Options);
     _handleFile(req: any, file: any, cb: any): void;
     _removeFile(req: any, file: any, cb: any): void;
   }
-
-  export = CloudinaryStorage;
 }
