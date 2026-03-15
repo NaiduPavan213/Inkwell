@@ -47,6 +47,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 const allowedOrigins = [
 	process.env.FRONTEND_URL as string,
+	'https://quiet-bavarois-5e47f5.netlify.app',
 	'http://localhost:5173', // Vite default dev port
 	'http://localhost:3000'
 ];
