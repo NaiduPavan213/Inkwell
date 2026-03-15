@@ -11,6 +11,7 @@ frontend/.env
 # Build output
 # Ignore the production build folder from the frontend
 frontend/dist
+backend/dist
 
 # Logs
 npm-debug.log*

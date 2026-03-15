@@ -19,7 +19,12 @@ const HomePage: React.FC = () => {
         const fetchPosts = async () => {
             try {
                 const response = await axios.get<Post[]>('/api/posts');
-                setPosts(response.data);
+                if (Array.isArray(response.data)) {
+                    setPosts(response.data);
+                } else {
+                    console.error('API did not return an array:', response.data);
+                    setError('Received invalid data from server.');
+                }
             } catch (err: any) {
                 setError('Failed to fetch posts.');
             } finally {
