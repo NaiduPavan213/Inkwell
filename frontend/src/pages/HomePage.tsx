@@ -7,6 +7,7 @@ interface Post {
     _id: string;
     title: string;
     content: string;
+    coverImage?: string;
     createdAt: string;
 }
 
@@ -45,8 +46,11 @@ const HomePage: React.FC = () => {
                 {posts.length > 0 ? (
                     posts.map(post => (
                         <div key={post._id} className="post-item">
+                            {post.coverImage && (
+                                <img src={post.coverImage} alt={post.title} className="post-cover-thumb" />
+                            )}
                             <h2>{post.title}</h2>
-                            <p>{post.content.substring(0, 150)}...</p>
+                            <div className="post-excerpt" dangerouslySetInnerHTML={{ __html: post.content.substring(0, 150) + '...' }} />
                             <Link to={`/posts/${post._id}`} className="read-more-link">Read More</Link>
                         </div>
                     ))

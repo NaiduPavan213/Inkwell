@@ -13,6 +13,7 @@ interface Post {
     title: string;
     content: string;
     author: string;
+    coverImage?: string;
     createdAt: string;
 }
 
@@ -71,6 +72,9 @@ const PostDetailPage: React.FC = () => {
 
     return (
         <div className="post-detail">
+            {post.coverImage && (
+                <img src={post.coverImage} alt={post.title} className="post-cover-full" />
+            )}
             <h1>{post.title}</h1>
             <small>Posted on: {new Date(post.createdAt).toLocaleDateString()}</small>
             
