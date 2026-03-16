@@ -52,14 +52,21 @@ const CreatePostPage: React.FC = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="image">Cover Image (Optional)</label>
-                    <input 
-                        type="file" 
-                        id="image" 
-                        accept="image/*" 
-                        onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} 
-                    />
+                    <div className="file-upload-wrapper">
+                        <label htmlFor="image" className="file-upload-label">
+                            {image ? 'Change Image' : 'Choose Cover Image'}
+                        </label>
+                        <input 
+                            type="file" 
+                            id="image" 
+                            accept="image/*" 
+                            className="file-upload-input"
+                            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} 
+                        />
+                        {image && <span className="file-name">{image.name}</span>}
+                    </div>
                 </div>
-                <div className="form-group">
+                <div className="form-group no-margin">
                     <label>Content</label>
                     <ReactQuill 
                         theme="snow" 
@@ -68,9 +75,15 @@ const CreatePostPage: React.FC = () => {
                         className="quill-editor"
                     />
                 </div>
-                <button type="submit" className="form-button" disabled={loading}>
+                <button 
+                    type="submit" 
+                    className="form-button" 
+                    style={{ float: 'right', marginTop: '10px' }} 
+                    disabled={loading}
+                >
                     {loading ? 'Creating...' : 'Create Post'}
                 </button>
+                <div style={{ clear: 'both' }}></div>
             </form>
         </div>
     );

@@ -38,16 +38,20 @@ body {
 
 /* Add to App.css */
 .form-container {
-  max-width: 450px;
+  max-width: 800px; /* Slightly wider for better editor space */
   margin: 2rem auto;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group.no-margin {
+  margin-bottom: 0; /* Fully remove margin */
 }
 
 .form-group label {
@@ -56,25 +60,65 @@ body {
   font-weight: bold;
 }
 
-.form-group input {
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   box-sizing: border-box;
+  font-size: 1rem;
+}
+
+/* Custom File Upload Styling */
+.file-upload-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #f0f0f0;
+  border: 1px dashed #bbb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.file-upload-label:hover {
+  background: #e8e8e8;
+  border-color: #999;
+}
+
+.file-upload-input {
+  display: none;
+}
+
+.file-name {
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .form-button {
-  width: 100%;
-  padding: 0.75rem;
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  width: auto;
+  min-width: 150px;
   border: none;
-  background-color: #333;
+  background-color: #1a1a1a;
   color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  margin-top: 0; /* Remove top margin entirely */
 }
 
 .form-button:hover {
@@ -172,7 +216,12 @@ body {
 .quill-editor {
     background-color: #fff;
     color: #333;
-    min-height: 250px; /* Give the editor some default height */
+}
+
+.quill-editor .ql-container {
+    min-height: 150px; /* Reduced from 250px to make it tighter */
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 /* Style the content area on the detail page */
