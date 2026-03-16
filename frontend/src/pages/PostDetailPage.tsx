@@ -71,7 +71,7 @@ const PostDetailPage: React.FC = () => {
     const isAuthor = post.author === currentUserId;
 
     return (
-        <div className="post-detail">
+        <div className="post-detail reader-column">
             {post.coverImage && (
                 <img src={post.coverImage} alt={post.title} className="post-cover-full" />
             )}

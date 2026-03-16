@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
+import { GlassBlogCard } from '../components/ui/glass-blog-card-shadcnui';
 
 interface Post {
     _id: string;
     title: string;
     content: string;
+    author: {
+        _id: string;
+        username: string;
+        avatar?: string;
+    };
     coverImage?: string;
     createdAt: string;
 }
@@ -15,6 +21,7 @@ const HomePage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -23,7 +30,6 @@ const HomePage: React.FC = () => {
                 if (Array.isArray(response.data)) {
                     setPosts(response.data);
                 } else {
-                    console.error('API did not return an array:', response.data);
                     setError('Received invalid data from server.');
                 }
             } catch (err: any) {
@@ -32,30 +38,56 @@ const HomePage: React.FC = () => {
                 setLoading(false);
             }
         };
-
         fetchPosts();
     }, []);
 
-    if (loading) return <p>Loading posts...</p>;
-    if (error) return <p className="error-msg">{error}</p>;
+    const stripHtml = (html: string) => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    };
+
+    const calculateReadTime = (text: string) => {
+        const words = text.split(/\s+/).length;
+        return `${Math.ceil(words / 200)} min read`;
+    };
+
+    if (loading) return <p style={{ textAlign: 'center', padding: '50px' }}>Loading posts...</p>;
+    if (error) return <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>;
 
     return (
-        <div>
-            <h1>All Posts</h1>
-            <div className="post-list">
+        <div style={{ maxWidth: '1200px', margin: '-30px auto 0', padding: '0 20px 60px 20px' }}>
+            <h1 style={{ textAlign: 'center', fontSize: '3.5rem', marginBottom: '30px', fontFamily: "'Playfair Display', serif" }}>
+                Latest Stories
+            </h1>
+            
+            {/* 3 COLUMN GRID - FORCED */}
+            <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+                gap: '40px',
+                justifyItems: 'center'
+            }}>
                 {posts.length > 0 ? (
                     posts.map(post => (
-                        <div key={post._id} className="post-item">
-                            {post.coverImage && (
-                                <img src={post.coverImage} alt={post.title} className="post-cover-thumb" />
-                            )}
-                            <h2>{post.title}</h2>
-                            <div className="post-excerpt" dangerouslySetInnerHTML={{ __html: post.content.substring(0, 150) + '...' }} />
-                            <Link to={`/posts/${post._id}`} className="read-more-link">Read More</Link>
-                        </div>
+                        <GlassBlogCard 
+                            key={post._id}
+                            title={post.title}
+                            excerpt={stripHtml(post.content).substring(0, 100) + '...'}
+                            image={post.coverImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80'}
+                            author={{
+                                name: post.author?.username || "InkWell Author",
+                                avatar: post.author?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${post.author?._id || post._id}`
+                            }}
+                            date={new Date(post.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                            readTime={calculateReadTime(post.content)}
+                            tags={["Blog", "InkWell"]}
+                            onClick={() => navigate(`/posts/${post._id}`)}
+                        />
                     ))
                 ) : (
-                    <p>No posts found. Why not create one?</p>
+                    <div style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
+                        <p>No posts found. <Link to="/create-post" style={{ color: 'blue' }}>Start Writing →</Link></p>
+                    </div>
                 )}
             </div>
         </div>

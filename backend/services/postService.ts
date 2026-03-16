@@ -19,14 +19,14 @@ export class PostService {
      * Get all posts sorted by newest
      */
     static async getAllPosts() {
-        return await Post.find().sort({ createdAt: -1 }).lean();
+        return await Post.find().sort({ createdAt: -1 }).populate('author', 'username avatar').lean();
     }
 
     /**
      * Get a single post by ID
      */
     static async getPostById(postId: string) {
-        const post = await Post.findById(postId).lean();
+        const post = await Post.findById(postId).populate('author', 'username avatar').lean();
         if (!post) throw new Error('Post not found');
         return post;
     }

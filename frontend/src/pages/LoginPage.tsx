@@ -20,7 +20,12 @@ const LoginPage: React.FC = () => {
             auth?.login(response.data.token);
             navigate('/');
         } catch (err: any) {
-            setError(err.response?.data?.msg || 'Failed to login. Please try again.');
+            const serverMsg = err.response?.data?.msg;
+            if (serverMsg === 'Incorrect password.') {
+                setError('Incorrect password, try again later');
+            } else {
+                setError('Login failed. Please check your credentials.');
+            }
         }
     };
 
@@ -37,48 +42,68 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div className="form-container">
-            <form onSubmit={handleSubmit}>
-                <h2>Login</h2>
-                {error && <p className="error-msg">{error}</p>}
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" className="form-button">Login</button>
-                
-                <div className="divider" style={{ margin: '1.5rem 0', textAlign: 'center' }}>
-                    <span>OR</span>
+        <div className="auth-wrapper">
+            <div className="auth-card">
+                <div className="auth-tabs">
+                    <div className="auth-tab active">Sign In</div>
+                    <Link to="/register" className="auth-tab">Sign Up</Link>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
                     <GoogleLogin
                         onSuccess={handleGoogleSuccess}
                         onError={() => setError('Google Login Failed')}
-                        useOneTap
+                        text="continue_with"
+                        width="280"
+                        theme="outline"
+                        shape="rectangular"
                     />
                 </div>
 
-                <p className="form-link">
-                    Don't have an account? <Link to="/register">Register here</Link>
-                </p>
-            </form>
+                <div className="auth-divider">
+                    <span>or</span>
+                </div>
+
+                {error && <p className="error-msg">{error}</p>}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label className="auth-label" htmlFor="email">Email</label>
+                        <input
+                            className="auth-input"
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label className="auth-label" htmlFor="password">Password</label>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            id="password"
+                            placeholder="********"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="auth-submit-btn">Sign In</button>
+                </form>
+
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                    <Link to="/forgot-password" style={{ fontSize: '0.85rem', color: '#71717a', textDecoration: 'none' }}>
+                        Forgot password?
+                    </Link>
+                </div>
+
+                <div className="auth-footer">
+                    Don't have an account? <Link to="/register">Sign Up</Link>
+                </div>
+            </div>
         </div>
     );
 };

@@ -46,12 +46,12 @@ export class AuthService {
 
         const user = await User.findOne({ email });
         if (!user) {
-            throw new Error('Invalid credentials.');
+            throw new Error('User not found.');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new Error('Invalid credentials.');
+            throw new Error('Incorrect password.');
         }
 
         return this.generateToken(user.id);

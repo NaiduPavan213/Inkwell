@@ -40,8 +40,9 @@ export class AuthController {
             const token = await AuthService.loginUser(req.body);
             res.json({ token });
         } catch (err: any) {
-            if (err.message === 'Invalid credentials.') {
-                return res.status(400).json({ msg: err.message });
+            const msg = err.message;
+            if (msg === 'User not found.' || msg === 'Incorrect password.') {
+                return res.status(400).json({ msg });
             }
             next(err);
         }

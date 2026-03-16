@@ -2,18 +2,25 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--navbar-bg);
-    padding: 0.5rem 2rem;
+    background-color: var(--navbar-bg-translucent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0.8rem 2rem;
     color: var(--text-color);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border-color);
     transition: var(--theme-transition);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--text-color);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .navbar-links {
