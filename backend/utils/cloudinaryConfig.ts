@@ -14,8 +14,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'inkwell_posts',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
-    transformation: [{ width: 1200, height: 630, crop: 'limit' }]
+    format: 'jpg'
   },
 });
 
