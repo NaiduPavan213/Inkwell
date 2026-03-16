@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { GoogleLogin } from '@react-oauth/google';
 import '../App.css';
 
 const LoginPage: React.FC = () => {
@@ -20,6 +21,18 @@ const LoginPage: React.FC = () => {
             navigate('/');
         } catch (err: any) {
             setError(err.response?.data?.msg || 'Failed to login. Please try again.');
+        }
+    };
+
+    const handleGoogleSuccess = async (credentialResponse: any) => {
+        try {
+            const response = await axios.post<{ token: string }>('/api/auth/google', {
+                tokenId: credentialResponse.credential
+            });
+            auth?.login(response.data.token);
+            navigate('/');
+        } catch (err: any) {
+            setError('Google login failed. Please try again.');
         }
     };
 
@@ -49,6 +62,19 @@ const LoginPage: React.FC = () => {
                     />
                 </div>
                 <button type="submit" className="form-button">Login</button>
+                
+                <div className="divider" style={{ margin: '1.5rem 0', textAlign: 'center' }}>
+                    <span>OR</span>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => setError('Google Login Failed')}
+                        useOneTap
+                    />
+                </div>
+
                 <p className="form-link">
                     Don't have an account? <Link to="/register">Register here</Link>
                 </p>

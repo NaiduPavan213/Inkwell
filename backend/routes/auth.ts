@@ -29,4 +29,9 @@ router.post(
     AuthController.login
 );
 
+/**
+ * @route   POST api/auth/google
+ */
+router.post('/google', AuthController.googleLogin);
+
 export default router;

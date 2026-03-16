@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import ThemeToggle from './ThemeToggle';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
@@ -27,6 +28,7 @@ const Navbar: React.FC = () => {
                         <Link to='/register'>Register</Link>
                     </>
                 )}
+                <ThemeToggle />
             </div>
         </nav>
     );

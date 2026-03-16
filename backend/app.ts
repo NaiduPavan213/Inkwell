@@ -27,7 +27,9 @@ const allowedOrigins = [
     process.env.FRONTEND_URL,
     'https://quiet-bavarois-5e47f5.netlify.app',
     'http://localhost:5173',
-    'http://localhost:3000'
+    'http://127.0.0.1:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
 ].filter(Boolean) as string[];
 
 app.use(cors({

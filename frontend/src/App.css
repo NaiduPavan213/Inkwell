@@ -13,8 +13,9 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: var(--theme-transition);
 }
 /* We are moving all global styles to App.css, so this file can be minimal */
 /* This just ensures the body has no default margin or padding */
@@ -38,12 +39,13 @@ body {
 
 /* Add to App.css */
 .form-container {
-  max-width: 800px; /* Slightly wider for better editor space */
+  max-width: 800px;
   margin: 2rem auto;
   padding: 1.5rem 2rem;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 25px var(--card-shadow);
+  transition: var(--theme-transition);
 }
 
 .form-group {
@@ -65,10 +67,13 @@ body {
 .form-group input[type="password"] {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #e0e0e0;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
   border-radius: 6px;
   box-sizing: border-box;
   font-size: 1rem;
+  transition: var(--theme-transition);
 }
 
 /* Custom File Upload Styling */
@@ -82,8 +87,9 @@ body {
 .file-upload-label {
   display: inline-block;
   padding: 0.6rem 1.2rem;
-  background: #f0f0f0;
-  border: 1px dashed #bbb;
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px dashed var(--input-border);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
@@ -102,7 +108,7 @@ body {
 
 .file-name {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--secondary-text);
 }
 
 .form-button {
@@ -146,10 +152,11 @@ body {
 }
 
 .post-item {
-    background: #fff;
+    background: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px var(--card-shadow);
+    transition: var(--theme-transition);
 }
 
 .post-item h2 {
@@ -161,7 +168,7 @@ body {
     margin-top: 1rem;
     text-decoration: none;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
 }
 
 .post-cover-thumb {
@@ -214,14 +221,38 @@ body {
 }
 
 .quill-editor {
-    background-color: #fff;
-    color: #333;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: var(--theme-transition);
 }
 
 .quill-editor .ql-container {
-    min-height: 150px; /* Reduced from 250px to make it tighter */
+    min-height: 150px;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
+    border-color: var(--input-border);
+}
+
+.quill-editor .ql-toolbar {
+    background-color: var(--navbar-bg);
+    border-color: var(--input-border);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+[data-theme='dark'] .ql-toolbar .ql-stroke {
+    stroke: var(--text-color);
+}
+[data-theme='dark'] .ql-toolbar .ql-fill {
+    fill: var(--text-color);
+}
+[data-theme='dark'] .ql-toolbar .ql-picker {
+    color: var(--text-color);
+}
+
+[data-theme='dark'] .ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    background-color: var(--navbar-bg);
+    border-color: var(--input-border);
 }
 
 /* Style the content area on the detail page */
@@ -251,7 +282,7 @@ body {
 .divider {
     margin: 3rem 0;
     border: 0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
 }
 
 /* Like Button Section */
@@ -263,24 +294,25 @@ body {
 }
 
 .like-button {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
     padding: 0.6rem 1.2rem;
     border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.2s;
+    transition: var(--theme-transition);
 }
 
 .like-button.liked {
-    background-color: #ffdddd;
-    color: #e53e3e;
-    border-color: #e53e3e;
+    background-color: var(--liked-bg);
+    color: var(--liked-text);
+    border-color: var(--liked-text);
 }
 
 .like-count {
     font-weight: bold;
-    color: #555;
+    color: var(--secondary-text);
 }
 
 /* Comments Section */
@@ -291,19 +323,23 @@ body {
 .comment-form textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     box-sizing: border-box;
     margin-bottom: 0.5rem;
+    transition: var(--theme-transition);
 }
 
 .comment-form button {
-    background-color: #333;
-    color: white;
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
     padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: var(--theme-transition);
 }
 
 .comments-list {
@@ -311,11 +347,13 @@ body {
 }
 
 .comment-item {
-    background-color: #f9f9f9;
+    background-color: var(--input-bg);
+    color: var(--text-color);
     padding: 1rem;
     border-radius: 5px;
     margin-bottom: 1rem;
     border-left: 3px solid #007bff;
+    transition: var(--theme-transition);
 }
 
 .comment-text {

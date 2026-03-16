@@ -1,2 +1,14 @@
 {"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-14T10:30:04.574Z"}
 {"level":"error","message":"MongoDB connection error: Error: querySrv ENOTFOUND _mongodb._tcp.cluster0.hhhnty2.mongodb.net","timestamp":"2026-03-14T10:30:04.602Z"}
+{"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-16T06:04:44.966Z"}
+{"level":"info","message":"MongoDB is connected successfully","timestamp":"2026-03-16T06:05:07.213Z"}
+{"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-16T06:55:39.122Z"}
+{"level":"info","message":"MongoDB is connected successfully","timestamp":"2026-03-16T06:55:40.901Z"}
+{"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-16T16:08:34.484Z"}
+{"level":"info","message":"MongoDB is connected successfully","timestamp":"2026-03-16T16:08:36.509Z"}
+{"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-16T16:14:02.182Z"}
+{"level":"info","message":"MongoDB is connected successfully","timestamp":"2026-03-16T16:14:03.667Z"}
+{"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-16T16:16:19.689Z"}
+{"level":"info","message":"MongoDB is connected successfully","timestamp":"2026-03-16T16:16:21.091Z"}
+{"level":"info","message":"server running successfully on 5000","timestamp":"2026-03-16T16:21:18.977Z"}
+{"level":"info","message":"MongoDB is connected successfully","timestamp":"2026-03-16T16:21:20.241Z"}

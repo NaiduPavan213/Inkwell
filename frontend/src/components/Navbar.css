@@ -2,14 +2,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: var(--navbar-bg);
     padding: 0.5rem 2rem;
-    color: white;
+    color: var(--text-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: var(--theme-transition);
 }
 
 .navbar-brand {
     font-size: 1.5rem;
-    color: white;
+    color: var(--text-color);
     text-decoration: none;
     font-weight: bold;
 }
@@ -21,26 +23,28 @@
 }
 
 .navbar-links a {
-    color: white;
+    color: var(--text-color);
     text-decoration: none;
     font-size: 1rem;
+    transition: var(--theme-transition);
 }
 
 .navbar-links a:hover {
-    text-decoration: underline;
+    color: var(--link-color);
 }
 
 .logout-button {
     background: none;
-    border: 1px solid white;
-    color: white;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
     padding: 0.4rem 0.8rem;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
+    transition: var(--theme-transition);
 }
 
 .logout-button:hover {
-    background-color: white;
-    color: #333;
+    background-color: var(--text-color);
+    color: var(--bg-color);
 }

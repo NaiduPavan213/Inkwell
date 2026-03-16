@@ -46,4 +46,23 @@ export class AuthController {
             next(err);
         }
     }
+
+    /**
+     * @route   POST api/auth/google
+     * @desc    Google login
+     * @access  Public
+     */
+    static async googleLogin(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { tokenId } = req.body;
+            if (!tokenId) {
+                return res.status(400).json({ msg: 'Google Token is required' });
+            }
+            const token = await AuthService.googleLogin(tokenId);
+            res.json({ token });
+        } catch (err: any) {
+            console.error('Google Auth Error:', err.message);
+            res.status(401).json({ msg: 'Google Authentication failed' });
+        }
+    }
 }

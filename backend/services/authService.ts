@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import { OAuth2Client } from 'google-auth-library';
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export class AuthService {
     /**
@@ -49,6 +52,37 @@ export class AuthService {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             throw new Error('Invalid credentials.');
+        }
+
+        return this.generateToken(user.id);
+    }
+
+    /**
+     * Authenticates with Google and returns a JWT token
+     */
+    static async googleLogin(tokenId: string) {
+        const ticket = await client.verifyIdToken({
+            idToken: tokenId,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+
+        const payload = ticket.getPayload();
+        if (!payload || !payload.email) {
+            throw new Error('Invalid Google Token');
+        }
+
+        const { email, name, sub: googleId } = payload;
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Create user if not exists
+            user = new User({
+                username: name || email.split('@')[0],
+                email,
+                password: await bcrypt.hash(googleId, 10) // Random password
+            });
+            await user.save();
         }
 
         return this.generateToken(user.id);
